@@ -1,8 +1,14 @@
 function Query (model) {
+    if (typeof model === 'string') {
+        this._table = model;
+    } else if (typeof model === 'object') {
+        this._table = model.table;
+        this._model = model;
+    } else {
+        throw new Error("A model of table is required to instanciate the querybuilder.")
+    }
     this._query = '';
     this._queryType = '';
-    this._table = model.table;
-    this._model = model;
     this._lastAdded = '';
     this.sections = {
         columns: '',
@@ -51,7 +57,7 @@ Query.prototype.create = function() {
 // Main Body
 Query.prototype.select = function() {
     this._queryType = 'select';
-    this.sections.columns = this._model.getAliasedFields();
+    this.sections.columns = this._model ? this._model.getAliasedFields() : ' *';
     return this._startNewQuery(`SELECTcolumns FROM ${this._table} `);
 }
 Query.prototype.update = function() {
