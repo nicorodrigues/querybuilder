@@ -1,5 +1,5 @@
 {
-  "name": "querybuilder",
+  "name": "simple-mysql-querybuilder",
   "version": "0.1.1",
   "description": "A simple querybuilder for MySQL",
   "main": "index.js",
@@ -13,7 +13,8 @@
   "keywords": [
     "querybuilder",
     "query-builder",
-    "orm"
+    "orm",
+    "mysql"
   ],
   "author": "Nicolás Rodrigues",
   "license": "MIT",
