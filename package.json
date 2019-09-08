@@ -1,0 +1,24 @@
+{
+  "name": "querybuilder",
+  "version": "0.1.1",
+  "description": "A simple querybuilder for MySQL",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nicorodrigues/querybuilder.git"
+  },
+  "keywords": [
+    "querybuilder",
+    "query-builder",
+    "orm"
+  ],
+  "author": "Nicolás Rodrigues",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nicorodrigues/querybuilder/issues"
+  },
+  "homepage": "https://github.com/nicorodrigues/querybuilder#readme"
+}
