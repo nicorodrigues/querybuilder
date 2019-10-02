@@ -5,7 +5,7 @@ function Query (model) {
         this._table = model.table;
         this._model = model;
     } else {
-        throw new Error("A model of table is required to instanciate the querybuilder.")
+        throw new Error("A model of table is required to instantiate the querybuilder.")
     }
     this._query = '';
     this._queryType = '';
