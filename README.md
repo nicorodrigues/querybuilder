@@ -10,6 +10,7 @@ A simple querybuilder for MySQL
 
 ## *Available operations:*
 - where
+- orWhere
 - whereIn
 - whereInPivot (only for id's for now)
 - orderBy
