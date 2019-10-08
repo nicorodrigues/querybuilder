@@ -19,10 +19,10 @@ function Query (model) {
         limit: ''
     }
     this._canHave = {
-        select: ['where','orderBy','limit'],
-        update: ['escaped', 'where'],
-        insert: ['columns', 'escaped', 'where'],
-        delete: ['where'],
+        select: ['where', 'orWhere','orderBy','limit'],
+        update: ['escaped', 'where', 'orWhere'],
+        insert: ['columns', 'escaped', 'where', 'orWhere'],
+        delete: ['where', 'orWhere'],
         raw: []
     }
 }
