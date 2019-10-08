@@ -15,6 +15,7 @@ function Query (model) {
         escaped: '',
         values: '',
         where: '',
+        orWhere: '',
         orderBy: '',
         limit: ''
     }
@@ -37,6 +38,9 @@ Query.prototype.create = function() {
         const section = this.sections[key];
 
         if (section.length) {
+            if (key === 'orWhere') {
+                section = `${this._detectIfExists("WHERE") ? "AND" : "WHERE"} (${section.slice(0, -3)}) `
+            }
             this.addRawToQuery(section);
         }
     }
@@ -89,6 +93,15 @@ Query.prototype.where = function(...params) {
     let value = params.length > 2 ? params[2] : params[1];
     let modifier = params.length > 2 ? params[1] : '=';
     this.sections.where += `${keyWord} ${row} ${modifier} ${this._parseValue(value)} `;
+
+    return this;
+}
+
+Query.prototype.orWhere = function(...params) {
+    let row = params[0];
+    let value = params.length > 2 ? params[2] : params[1];
+    let modifier = params.length > 2 ? params[1] : '=';
+    this.sections.orWhere += `${row} ${modifier} ${this._parseValue('%' + value + '%')} OR `;
 
     return this;
 }
