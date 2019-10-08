@@ -5,7 +5,7 @@ function Query (model) {
         this._table = model.table;
         this._model = model;
     } else {
-        throw new Error("A model of table is required to instanciate the querybuilder.")
+        throw new Error("A model of table is required to instantiate the querybuilder.")
     }
     this._query = '';
     this._queryType = '';
@@ -19,10 +19,10 @@ function Query (model) {
         limit: ''
     }
     this._canHave = {
-        select: ['where','orderBy','limit'],
-        update: ['escaped', 'where'],
-        insert: ['columns', 'escaped', 'where'],
-        delete: ['where'],
+        select: ['where', 'orWhere','orderBy','limit'],
+        update: ['escaped', 'where', 'orWhere'],
+        insert: ['columns', 'escaped', 'where', 'orWhere'],
+        delete: ['where', 'orWhere'],
         raw: []
     }
 }
