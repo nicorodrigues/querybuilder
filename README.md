@@ -12,6 +12,7 @@ A simple querybuilder for MySQL
 - where
 - orWhere
 - whereIn
+- search (using indexes)
 - whereInPivot (only for id's for now)
 - orderBy
 - only
