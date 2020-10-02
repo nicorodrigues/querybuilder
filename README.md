@@ -6,13 +6,13 @@ A simple querybuilder for MySQL
 - Update
 - Insert
 - Delete
-- RAW
+- Raw
 
 ## *Available operations:*
 - where
 - orWhere
 - whereIn
-- search (using indexes)
+- search (using indexes in natural language)
 - whereInPivot (only for id's for now)
 - orderBy
 - only
@@ -21,4 +21,4 @@ A simple querybuilder for MySQL
 - paginate
 - setValues
 
-Documentation in progres...
+Documentation in progress...

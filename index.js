@@ -59,25 +59,30 @@ Query.prototype.create = function () {
 Query.prototype.select = function (columns = null) {
     this._queryType = "select";
     this.sections.columns = columns !== null ? columns.join(", ") : " *";
+    
     return this._startNewQuery(`SELECTcolumns FROM ${this._table} `);
 };
 Query.prototype.update = function () {
     this._queryType = "update";
+    
     return this._startNewQuery(`UPDATE ${this._table} SET `);
 };
 
 Query.prototype.insert = function () {
     this._queryType = "insert";
+    
     return this._startNewQuery(`INSERT INTO ${this._table} `);
 };
 
 Query.prototype.delete = function () {
     this._queryType = "delete";
+    
     return this._startNewQuery(`DELETE FROM ${this._table} `);
 };
 
 Query.prototype.raw = function (query) {
     this._queryType = "raw";
+    
     return this._startNewQuery(query);
 };
 
@@ -159,6 +164,7 @@ Query.prototype.except = function (columns) {
 
 Query.prototype.distinct = function () {
     this._query = this._query.replace("SELECT", "SELECT DISTINCT");
+    
     return this;
 };
 
@@ -190,12 +196,14 @@ Query.prototype.whereInPivot = function ({ pivot, table1, table2, column, value,
 Query.prototype._startNewQuery = function (str) {
     this._query = str;
     this._lastAdded = str;
+    
     return this;
 };
 
 Query.prototype.addRawToQuery = function (str) {
     this._query += str;
     this._lastAdded = str;
+
     return this;
 };
 
@@ -221,7 +229,7 @@ Query.prototype._parseValue = function (val) {
 };
 
 Query.prototype._parseMulti = function (values) {
-    return values.map((e) => this._parseValue(e));
+    return values.forEach((e) => this._parseValue(e));
 };
 
 Query.prototype._checkForErrors = function () {
