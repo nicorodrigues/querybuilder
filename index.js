@@ -151,12 +151,9 @@ Query.prototype.only = function (columns) {
 Query.prototype.except = function (columns) {
     this.sections.columns = this.sections.columns.filter(e => {
 
-        for (let i = 0; i < columns.length; i++) {
-            const column = columns[i];
-            if (e.includes(column)) {
+        for (let i = 0; i < columns.length; i++)
+            if (e.includes(columns[i]))
                 return false;
-            }
-        }
 
         return e;
     });
