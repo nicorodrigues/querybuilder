@@ -5,7 +5,7 @@ function Query(model) {
         throw new Error("A table name is required to instantiate the querybuilder.");
     }
     this._query = "";
-    this._query_type = "";
+    this._queryType = "";
     this._lastAdded = "";
     this.sections = {
         columns: "",
@@ -26,7 +26,7 @@ function Query(model) {
 }
 
 Query.prototype.create = function () {
-    let permitted = this._permittedSections(this._query_type);
+    let permitted = this._permittedSections(this._queryType);
 
     this._fillBlanks();
 
@@ -57,32 +57,32 @@ Query.prototype.create = function () {
 
 // Main Body
 Query.prototype.select = function (columns = null) {
-    this._query_type = "select";
+    this._queryType = "select";
     this.sections.columns = columns !== null ? columns.join(", ") : " *";
-
+    
     return this._startNewQuery(`SELECTcolumns FROM ${this._table} `);
 };
 Query.prototype.update = function () {
-    this._query_type = "update";
-
+    this._queryType = "update";
+    
     return this._startNewQuery(`UPDATE ${this._table} SET `);
 };
 
 Query.prototype.insert = function () {
-    this._query_type = "insert";
-
+    this._queryType = "insert";
+    
     return this._startNewQuery(`INSERT INTO ${this._table} `);
 };
 
 Query.prototype.delete = function () {
-    this._query_type = "delete";
-
+    this._queryType = "delete";
+    
     return this._startNewQuery(`DELETE FROM ${this._table} `);
 };
 
 Query.prototype.raw = function (query) {
-    this._query_type = "raw";
-
+    this._queryType = "raw";
+    
     return this._startNewQuery(query);
 };
 
@@ -127,7 +127,7 @@ Query.prototype.setValues = function (data) {
     let values = Object.values(data);
 
     this.sections.columns = `(${columns.join(", ")}) `;
-    this.sections.escaped = this._query_type === "insert" ? `VALUES (${values.map((e) => "?").join(", ")}) ` : this._buildUpdateValues(columns);
+    this.sections.escaped = this._queryType === "insert" ? `VALUES (${values.map((e) => "?").join(", ")}) ` : this._buildUpdateValues(columns);
     this.sections.values = values.map((e) => {
         if (e && (Object.getPrototypeOf(e) === Object.prototype || Array.isArray(e))) {
             return JSON.stringify(e);
@@ -150,8 +150,11 @@ Query.prototype.only = function (columns) {
 };
 
 Query.prototype.except = function (columns) {
-    this.sections.columns = this.sections.columns.filter((e) => {
-        for (let i = 0; i < columns.length; i++) if (e.includes(columns[i])) return false;
+    this.sections.columns = this.sections.columns.filter(e => {
+
+        for (let i = 0; i < columns.length; i++)
+            if (e.includes(columns[i]))
+                return false;
 
         return e;
     });
@@ -159,7 +162,7 @@ Query.prototype.except = function (columns) {
 
 Query.prototype.distinct = function () {
     this._query = this._query.replace("SELECT", "SELECT DISTINCT");
-
+    
     return this;
 };
 
@@ -191,7 +194,7 @@ Query.prototype.whereInPivot = function ({ pivot, table1, table2, column, value,
 Query.prototype._startNewQuery = function (str) {
     this._query = str;
     this._lastAdded = str;
-
+    
     return this;
 };
 
@@ -228,7 +231,7 @@ Query.prototype._parseMulti = function (values) {
 };
 
 Query.prototype._checkForErrors = function () {
-    const must_have = {
+    const mustHave = {
         select: [],
         update: ["values"],
         insert: ["values"],
@@ -236,7 +239,7 @@ Query.prototype._checkForErrors = function () {
         raw: [],
     };
 
-    const cant_have = {
+    const cantHave = {
         select: ["values"],
         update: [],
         insert: [],
@@ -244,16 +247,16 @@ Query.prototype._checkForErrors = function () {
         raw: [],
     };
 
-    for (let i = 0; i < must_have[this._query_type].length; i++) {
-        const section = must_have[this._query_type][i];
+    for (let i = 0; i < mustHave[this._queryType].length; i++) {
+        const section = mustHave[this._queryType][i];
 
         if (!this._sectionExists(section)) {
             throw new Error(`"${section}" missing in query.`);
         }
     }
 
-    for (let i = 0; i < cant_have[this._query_type].length; i++) {
-        const section = cant_have[this._query_type][i];
+    for (let i = 0; i < cantHave[this._queryType].length; i++) {
+        const section = cantHave[this._queryType][i];
 
         if (this._sectionExists(section)) {
             throw new Error(`"${section}" cannot be in query.`);
@@ -268,7 +271,7 @@ Query.prototype._sectionExists = function (section) {
 };
 
 Query.prototype._permittedSections = function () {
-    return this._canHave[this._query_type];
+    return this._canHave[this._queryType];
 };
 
 Query.prototype._fillBlanks = function () {
